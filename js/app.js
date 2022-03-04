@@ -41,7 +41,7 @@ function createNavItems(sections) {
         const link = document.createElement('a');
 
         // Add attributes to elements
-        link.textContent = section.dataset.nav;
+        link.innerHTML = section.dataset.nav;
         link.classList.add('menu__link');
         link.setAttribute("href", "#" + section.id);
         link.setAttribute("id", section.id + "__nav");
