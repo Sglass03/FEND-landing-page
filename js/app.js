@@ -13,16 +13,8 @@
  * 
 */
 
-
-/**
- * Define Global Variables
- * 
-*/
-
 // Get all sections
 const sections = document.getElementsByClassName('section');
-
-
 
 // Use helper function inInViewport -- 
 // Used from https://www.javascripttutorial.net/dom/css/check-if-an-element-is-visible-in-the-viewport/
@@ -52,34 +44,29 @@ function createNavItems(sections) {
         link.textContent = section.dataset.nav;
         link.classList.add('menu__link');
         link.setAttribute("href", "#" + section.id);
+        link.setAttribute("id", section.id + "__nav");
 
         // Add elements to the DOM
         item.append(link);
         nav_ul.appendChild(item);
 
-        item.addEventListener('click', function(event) {
-            event.preventDefault();
 
-            // Get the delegated event target
-            scroll_target = event.target.getAttribute('href');
-
-            // Scroll to target
-            // Informed by this discussion: https://stackoverflow.com/questions/13266746/scroll-jump-to-id-without-jquery
-            document.querySelector(scroll_target).scrollIntoView({
-                behavior: 'smooth'
-              });
-        });
     }
+
+    nav_ul.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        // Get the delegated event target
+        scroll_target = event.target.getAttribute('href');
+
+        // Scroll to target
+        // Informed by this discussion: https://stackoverflow.com/questions/13266746/scroll-jump-to-id-without-jquery
+        document.querySelector(scroll_target).scrollIntoView({
+            behavior: 'smooth'
+          });
+    });
 }
 
 // build the nav
 createNavItems(sections);
 
-// Add the event listener to set the active class to the section in view
-window.addEventListener('scroll', function() {
-    for (section of sections) {
-        if (isInViewport(section)) {
-            section.classList.add('your-active-class');
-        }
-    }
-});
