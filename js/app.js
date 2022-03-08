@@ -36,6 +36,7 @@ document.addEventListener('scroll', function () {
 
         // console.log(isInViewport(el));
         if (isInViewport(el)) {
+          console.log(el.id + " active")
             el.classList.add("active-class");
             nav_el.classList.add('active');
         }
