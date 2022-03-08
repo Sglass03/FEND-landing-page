@@ -69,8 +69,6 @@ function createNavItems(sections) {
         // Add elements to the DOM
         item.append(link);
         nav_ul.appendChild(item);
-
-
     }
 
     // Add event listener to add scrolling behavior
@@ -78,7 +76,7 @@ function createNavItems(sections) {
         event.preventDefault();
 
         // Check to make sure the click isn't for the icon
-        if (event.target.className != 'fa fa-bars' & event.target.getAttribute('href') != "javascript:void(0);") {
+        if (event.target.className != 'fa fa-bars' & event.target.getAttribute('href') != "") {
             // Get the delegated event target
             scroll_target = event.target.getAttribute('href');
 
