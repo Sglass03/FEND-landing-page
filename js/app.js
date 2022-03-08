@@ -16,7 +16,7 @@
 // Get all sections
 const sections = document.getElementsByClassName('section');
 
-// Use helper function inInViewport -- 
+// Use helper function inInViewport to see if element is in viewport
 // Used from https://www.javascripttutorial.net/dom/css/check-if-an-element-is-visible-in-the-viewport/
 function isInViewport(element) {
     const rect = element.getBoundingClientRect();
@@ -27,6 +27,26 @@ function isInViewport(element) {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
 }
+
+// Add event listener to see if section is in viewport
+document.addEventListener('scroll', function () {
+    for (section of sections) {
+        el = document.getElementById(section.id);
+        nav_el = document.getElementById(section.id + '__nav');
+
+        // console.log(isInViewport(el));
+        if (isInViewport(el)) {
+            el.classList.add("active-class");
+            nav_el.classList.add('active');
+        }
+
+        if (!isInViewport(el)) {
+            el.classList.remove("active-class");
+            nav_el.classList.remove("active");
+        }
+    }
+});
+
 
 // Function to create the nav items
 // Uses the global sections variable
@@ -53,20 +73,49 @@ function createNavItems(sections) {
 
     }
 
+    // Add event listener to add scrolling behavior
     nav_ul.addEventListener('click', function(event) {
         event.preventDefault();
 
-        // Get the delegated event target
-        scroll_target = event.target.getAttribute('href');
+        // Check to make sure the click isn't for the icon
+        if (event.target.className != 'fa fa-bars' & event.target.getAttribute('href') != "javascript:void(0);") {
+            // Get the delegated event target
+            scroll_target = event.target.getAttribute('href');
 
-        // Scroll to target
-        // Informed by this discussion: https://stackoverflow.com/questions/13266746/scroll-jump-to-id-without-jquery
-        document.querySelector(scroll_target).scrollIntoView({
-            behavior: 'smooth'
-          });
+            // Scroll to target
+            // Informed by this discussion: https://stackoverflow.com/questions/13266746/scroll-jump-to-id-without-jquery
+            document.querySelector(scroll_target).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
     });
 }
 
 // build the nav
 createNavItems(sections);
 
+// Create responsive nav
+// Code influenced by https://www.w3schools.com/howto/howto_js_topnav_responsive.asp
+function myFunction() {
+    let x = document.getElementById("navbar__list");
+    if (x.className === "") {
+      x.className += "responsive";
+    } else {
+      x.className = "";
+    }
+  }
+
+  /* When the user scrolls down, hide the navbar. When the user scrolls up, show the navbar */
+  // From https://www.w3schools.com/howto/howto_js_navbar_hide_scroll.asp
+let prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  let currentScrollPos = window.pageYOffset;
+  el = document.getElementById("navbar__list");
+
+  if (prevScrollpos >= currentScrollPos) {
+    el.classList.remove('hide');
+  } else {
+    el.classList.add('hide');
+  }
+  prevScrollpos = currentScrollPos;
+}
